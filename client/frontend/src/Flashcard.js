@@ -11,7 +11,12 @@ export default function Flashcard({flashcard}) {
         const backHeight = backEl.current.getBoundingClientRect().height;
         setHeight(Math.max(frontHeight, backHeight, 100));
     }
-
+    function handleEdit(e) {
+        e.preventDefault();
+    }
+    function handleDelete(e) {
+        e.preventDefault();
+    }
     useEffect(() => {
         setMaxHeight();
     }, [flashcard.question, flashcard.answer, flashcard.options]);
@@ -22,9 +27,13 @@ export default function Flashcard({flashcard}) {
     return (
         <div className={`card ${flip ? 'flip' : ''}`} onClick={()=> setFlip(!flip)}
         style={{height: height}}>
-            <div className="front" ref={frontEl}>
+            <div className="item front" ref={frontEl}>
                 {flashcard.question}
-                <div className="flashcard-options">
+                <div className="item" hidden={flashcard.status === true}>
+                    <button onClick={handleEdit}>Edit</button>
+                    <button onClick={handleDelete}>Delete</button>
+                </div>
+                <div className="item flashcard-options">
                     {flashcard.options.map(option => {
                         return <div className="flashcard-option" key={option}>{option}</div>
                     })}

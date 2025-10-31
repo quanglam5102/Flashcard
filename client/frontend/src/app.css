@@ -76,7 +76,17 @@ body {
 }
 
 .card .front {
+    width: 100%;
     left: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: space-between;
+}
+
+.item {
+    flex: 0 0 calc(50% - 16px);
+    box-sizing: border-box;
 }
 
 .card .front,
