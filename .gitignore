@@ -1,0 +1,16 @@
+# Ignore virtual environment
+venv/
+
+# Ignore Python cache files
+__pycache__/
+*.pyc
+
+# Ignore build folders
+build/
+dist/
+
+# Ignore Node.js dependencies (if using React too)
+node_modules/
+
+# Ignore system files
+.DS_Store
