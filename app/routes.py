@@ -31,7 +31,48 @@ def all_cards():
             'status': card.status,
             'options': card.options
         })
-    return jsonify(results)
+    return jsonify(results), 200
+
+@bp.route('/get-card/<int:card_id>', methods=['GET'])
+def get_card(card_id):
+    card = Cards.query.get(card_id)
+    if not card:
+        return jsonify({'error': 'Card not found'}), 404
+    result = {
+        'id': card.id,
+        'question': card.question,
+        'answer': card.answer,
+        'status': card.status,
+        'options': card.options
+    }
+    return jsonify(result), 200
+
+@bp.route('/update-card/<int:card_id>', methods=['PUT'])
+def update_card(card_id):
+    card = Cards.query.get(card_id)
+    if not card:
+        return jsonify({'error': 'Card not found'}), 404
+    data = request.get_json()
+    if not data:
+        return jsonify({'error': 'No dat provided'}), 400
+    
+    card.question = data.get('question', card.question)
+    card.answer = data.get('answer', card.answer)
+    card.status = data.get('status', card.status)
+    card.options = data.get('options', card.options)
+
+    db.session.commit()
+
+    return '', 204
+
+@bp.route('/delete-card/<int:card_id>', methods=['DELETE'])
+def delete_card(card_id):
+    card = Cards.query.get(card_id)
+    if not card:
+        return jsonify({'error': 'Card not found'})
+    db.session.delete(card)
+    db.session.commit()
+    return '', 204
 
 @bp.route('/users')
 def users():
